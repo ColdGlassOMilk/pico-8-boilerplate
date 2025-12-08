@@ -7,13 +7,22 @@ input = {
     up = 2,
     down = 3,
     o = 4,
-    x = 5
+    x = 5,
+    hold = {
+      left = "hold_0",
+      right = "hold_1",
+      up = "hold_2",
+      down = "hold_3",
+      o = "hold_4",
+      x = "hold_5"
+    }
   },
   stack = {},
   subs = {}
 }
 
 function input:update()
+  -- handle press events (btnp)
   if btnp(self.button.up) then
     message_bus:emit('btn:up')
   end
@@ -32,6 +41,26 @@ function input:update()
   if btnp(self.button.o) then
     message_bus:emit('btn:o')
   end
+
+  -- handle hold events (btn) - emit every frame while held
+  if btn(self.button.up) then
+    message_bus:emit('btn:hold:up')
+  end
+  if btn(self.button.down) then
+    message_bus:emit('btn:hold:down')
+  end
+  if btn(self.button.left) then
+    message_bus:emit('btn:hold:left')
+  end
+  if btn(self.button.right) then
+    message_bus:emit('btn:hold:right')
+  end
+  if btn(self.button.x) then
+    message_bus:emit('btn:hold:x')
+  end
+  if btn(self.button.o) then
+    message_bus:emit('btn:hold:o')
+  end
 end
 
 function input:down(b)
@@ -45,9 +74,18 @@ end
 function input:bind(context)
   -- register a context (table of button -> handler pairs)
   for btn, handler in pairs(context) do
-    -- convert button constant to event string
-    local event = 'btn:'..self:_btn_to_name(btn)
-    
+    local event
+
+    -- check if it's a hold binding
+    if type(btn) == "string" and sub(btn, 1, 5) == "hold_" then
+      -- it's a hold binding like "hold_5"
+      local btn_id = tonum(sub(btn, 6))
+      event = 'btn:hold:'..self:_btn_to_name(btn_id)
+    else
+      -- regular press binding
+      event = 'btn:'..self:_btn_to_name(btn)
+    end
+
     if not self.subs[event] then
       self.subs[event] = {}
     end
@@ -76,7 +114,7 @@ function input:pop()
   -- restore previous subscriptions
   message_bus:clr()
   self.subs = deli(self.stack)
-  
+
   -- re-subscribe all handlers
   for event, handlers in pairs(self.subs) do
     for handler in all(handlers) do
