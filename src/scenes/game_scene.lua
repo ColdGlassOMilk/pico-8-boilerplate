@@ -71,7 +71,7 @@ function game_scene:exit()
   -- clean up input contexts
   if game_menu.active then
     game_menu:hide()
-    game_menu:close_parents()
+    game_menu:close_parents()   -- isnt' this handled automatically? TODO: double-check
   end
   input:clr()
 end

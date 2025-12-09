@@ -51,7 +51,7 @@ function menu:show(parent)
   self.sel = 1
   self.active = true
   self.parent = parent
-  sfx(0, 3)
+  if self.closeable then sfx(0, 3) end
 
   -- if no position specified, center the menu
   if not self.x or not self.y then
