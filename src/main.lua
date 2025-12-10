@@ -6,7 +6,7 @@ function _init()
     name = "pico8_bp",
     title = "Pico-8 Boilerplate",
     defaults = {
-      bgcol = 8
+      bgcol = 1
     }
   })
 

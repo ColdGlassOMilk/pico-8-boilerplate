@@ -1,6 +1,8 @@
 # Pico-8 Boilerplate
 A minimal boilerplate for Pico-8 projects with input management, scene handling, nested menus, and save/load functionality.
 
+![Boilerplate Demo](demo.gif)
+
 ## Features
 - **Input Management** – Bind buttons to actions with context switching
 - **Scene Management** – Switch between game scenes with `switch()`, `push()`, and `pop()`
