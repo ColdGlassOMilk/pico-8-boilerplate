@@ -1,13 +1,6 @@
 -- game scene
 
-game_scene = {
-  data = {
-    bgcol = 1,
-    player = {
-      x, y = 63
-    }
-  }
-}
+game_scene = {}
 
 function game_scene:bgcol_selected(col)
   return self.data.bgcol==col
@@ -29,7 +22,8 @@ function game_scene:load(slot_num)
 end
 
 function game_scene:init()
-  self.data.bgcol = 5
+  self.data = app:copy_defaults()
+
   local m = self
   game_menu = menu:new({
     {label="new game", action=function() scene:switch("game") end},

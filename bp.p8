@@ -5,6 +5,7 @@ __lua__
 #include src/main.lua
 
 -- system
+#include src/system/app.lua
 #include src/system/input.lua
 #include src/system/menu.lua
 #include src/system/message_bus.lua
