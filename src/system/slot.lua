@@ -9,6 +9,15 @@ slot = {
 function slot:init(cart_id, keys)
   cartdata(cart_id or "pico8_bp_v1")
   self.keys = keys or {}
+
+  -- sort keys alphabetically for consistent order
+  for i = 1, #self.keys - 1 do
+    for j = i + 1, #self.keys do
+      if self.keys[j] < self.keys[i] then
+        self.keys[i], self.keys[j] = self.keys[j], self.keys[i]
+      end
+    end
+  end
 end
 
 -- Save data to a slot
